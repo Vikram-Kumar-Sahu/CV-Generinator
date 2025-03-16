@@ -1,0 +1,15 @@
+.inp {
+    font-size: 1rem;
+    background-color: #E8BCB9;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    resize: none;
+    border-radius:15px ;
+}
+
+.school textarea {
+    width: 100%;
+
+}
+

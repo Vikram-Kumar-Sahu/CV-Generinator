@@ -1,0 +1,184 @@
+* {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    background-color: #322d36;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 5vw; /* Responsive font size */
+    color: #AE445A;
+}
+
+.content1 {
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.name, .email, .phone, .school, .company {
+    font-size: 1.5rem;
+    color: #AE445A;
+}
+
+.name, .email, .phone{
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    span{
+        max-width: 15%;
+        text-align: left;
+        
+    }
+}
+
+.content2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.phone {
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.school {
+    margin-bottom: 1rem;
+}
+
+input {
+    height: 2rem;
+    width: 30%;
+    font-size: 1rem;
+    background-color: #E8BCB9;
+    padding: 0.5rem;
+    border-radius: 15px;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: hsl(249, 28%, 36%);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: hsl(249, 28%, 46%);
+}
+
+.submitted-data {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.submitted-data h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.submitted-data p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .heading {
+        font-size: 6vw;
+    }
+
+    .content1 {
+        font-size: 1rem;
+    }
+
+    .name, .email, .phone, .school, .company {
+        font-size: 1.2rem;
+    }
+
+    input {
+        width: 70%;
+        font-size: 0.9rem;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+    }
+
+
+    button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+    }
+
+    .submitted-data h2 {
+        font-size: 1.3rem;
+    }
+
+    .submitted-data p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .heading {
+        font-size: 7vw;
+    }
+
+    .content1 {
+        font-size: 0.9rem;
+    }
+
+    .name, .email, .phone, .school, .company {
+        font-size: 1rem;
+    }
+
+    input {
+        width: 80%;
+        font-size: 0.8rem;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .submitted-data h2 {
+        font-size: 1.2rem;
+    }
+
+    .submitted-data p {
+        font-size: 0.8rem;
+    }
+}
+
+/*To remove arrows*/
