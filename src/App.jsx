@@ -57,6 +57,7 @@ function App() {
           type="text"
           placeholder="Enter your name"
           value={name}
+          className='inp1'
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -68,6 +69,7 @@ function App() {
           type="text"
           placeholder="Enter your email"
           value={email}
+          className='inp1'
           onChange={handleEmailChange}
         />
         {emailError && <p style={{ color: 'red' }}>{emailError}</p>} {/* Display email error */}
@@ -79,6 +81,7 @@ function App() {
           inputMode='numeric'
           placeholder="Enter your phone num"
           value={number}
+          className='inp1'
           onChange={(e) => {
             setNumber(e.target.value);
           }}
@@ -87,20 +90,20 @@ function App() {
       </div>
       <hr />
       <div className={Styles.content2}>
-      <div className={Styles.school} style={{width: "50%"}}>
-        <span>Educational Information: </span>
+      <div className={Styles.school}>
+        <span className={Styles.edu}>Educational Information: </span>
         <CVGenerator setData={setSchool} prompt={prompts[0]} place={places[0]} />
       </div>
       <hr />
-      <div className={Styles.company} style={{width: "50%", }}>
-        <span>Practical Information: </span>
+      <div className={Styles.company} >
+        <span className={Styles.edu}>Practical Information: </span>
         <CVGenerator setData={setCompany} prompt={prompts[1]} place={places[1]} />
       </div>
       </div>
       <button onClick={handleSubmit}>SUBMIT</button>
 
       {submittedData && (
-        <div className="submitted-data">
+        <div className={Styles.submitted}>
           <h2>YOUR CV:</h2>
           <p>Name: {submittedData.name}</p>
           <p>Email: {submittedData.email}</p>

@@ -7,7 +7,11 @@
 .container {
     width: 100%;
     background-color: #322d36;
+    padding-left:14px;
+    min-height: 100vh; /* Fixes the incorrect 'screen' value */
+    box-sizing: border-box; /* Ensures padding doesn't overflow the width */
 }
+
 
 .heading {
     text-align: center;
@@ -17,6 +21,7 @@
 }
 
 .content1 {
+    
     color: white;
     text-align: center;
     font-size: 1.2rem;
@@ -44,12 +49,14 @@
     }
 }
 
+
 .content2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    width: 100%;
 }
 
 .phone {
@@ -57,17 +64,22 @@
     margin-bottom: 1rem;
 }
 
-.school {
+.school,.company{
+    margin-bottom: 1rem;
+    width: 50%;
+    padding-top: 1rem;
+}
+.edu{
+    padding-top: 1rem;
     margin-bottom: 1rem;
 }
-
 input {
     height: 2rem;
     width: 30%;
     font-size: 1rem;
     background-color: #E8BCB9;
     padding: 0.5rem;
-    border-radius: 15px;
+    border-radius: 7px;
 }
 
 button {
@@ -86,24 +98,29 @@ button:hover {
     background-color: hsl(249, 28%, 46%);
 }
 
-.submitted-data {
+.submitted {
     width: 100%;
-    max-width: 600px;
-    margin-top: 2rem;
-    padding: 1rem;
+    
+    margin-top: 1rem;
+    padding-top: 1rem;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+    background-color: #E8BCB9
 }
 
-.submitted-data h2 {
+.submitted h2 {
+    padding-left: 1rem;
+    margin-top: 1rem;;
     margin-bottom: 1rem;
     font-size: 1.5rem;
     color: #333;
 }
 
-.submitted-data p {
+.submitted p {
+    padding-left: 1rem;
     margin-bottom: 0.5rem;
     font-size: 1rem;
     color: #555;
@@ -122,7 +139,9 @@ button:hover {
     .name, .email, .phone, .school, .company {
         font-size: 1.2rem;
     }
-
+    .company, .school{
+        width: 100%;
+    }
     input {
         width: 70%;
         font-size: 0.9rem;
@@ -140,16 +159,20 @@ button:hover {
         padding: 0.7rem 1.2rem;
     }
 
-    .submitted-data h2 {
+    .submitted h2 {
         font-size: 1.3rem;
     }
 
-    .submitted-data p {
+    .submitted p {
         font-size: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
+    .container{
+        padding-left: 7px;
+    padding-right: 7px;
+    }
     .heading {
         font-size: 7vw;
     }
@@ -161,10 +184,13 @@ button:hover {
     .name, .email, .phone, .school, .company {
         font-size: 1rem;
     }
-
+    .school, .company {
+        width: 80%;
+    }
     input {
         width: 80%;
         font-size: 0.8rem;
+        padding: 4px;
     }
 
     button {
@@ -172,11 +198,11 @@ button:hover {
         padding: 0.6rem 1rem;
     }
 
-    .submitted-data h2 {
+    .submitted h2 {
         font-size: 1.2rem;
     }
 
-    .submitted-data p {
+    .submitted p {
         font-size: 0.8rem;
     }
 }

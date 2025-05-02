@@ -17,7 +17,7 @@ function CVGenerator({ setData, prompt, place }) {
             {
               parts: [
                 {
-                  text: question + ' ' + prompt, // Append the prompt to the question
+                  text: question + ' ' + prompt, 
                 },
               ],
             },
@@ -27,7 +27,7 @@ function CVGenerator({ setData, prompt, place }) {
 
       const generatedContent = response.data.candidates[0].content.parts[0].text;
       setQuestion(generatedContent);
-      setData(generatedContent); // Update the parent state with the generated content
+      setData(generatedContent); 
     } catch (error) {
       setQuestion('Error generating answer. Please try again.');
       console.error(error);
@@ -35,15 +35,15 @@ function CVGenerator({ setData, prompt, place }) {
   }
 
   return (
-    <div>
+    <div className='hero'>
       <textarea
-        // style={Styles.textarea} // Inline styles for height, width, and disabling resize
+        
         className={Styles.inp}
         placeholder={place}
         id="textarea"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
-        wrap="soft" // Enables text wrapping
+        wrap="soft" 
         cols="30"
         rows="10"
       />
