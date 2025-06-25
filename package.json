@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^1.8.3",
     "cv-gen": "file:",
+    "html2pdf.js": "^0.10.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -7,9 +7,11 @@
 .container {
     width: 100%;
     background-color: #322d36;
-    padding-left:14px;
+    padding: 0 20px;
     min-height: 100vh; /* Fixes the incorrect 'screen' value */
     box-sizing: border-box; /* Ensures padding doesn't overflow the width */
+    
+
 }
 
 
@@ -83,47 +85,66 @@ input {
 }
 
 button {
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: hsl(249, 28%, 36%);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  background-color: #AE445A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-    background-color: hsl(249, 28%, 46%);
+  background-color: #8c334a;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
 }
 
 .submitted {
-    width: 100%;
-    
-    margin-top: 1rem;
-    padding-top: 1rem;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    
-    background-color: #E8BCB9
+  width:95%;
+  margin-top: 2rem;
+  padding: 2rem 2.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.08);
+  font-family: 'Georgia', serif;
+  color: #222;
+  line-height: 1.7;
 }
 
 .submitted h2 {
-    padding-left: 1rem;
-    margin-top: 1rem;;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #333;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+  text-transform: uppercase;
+  border-bottom: 2px solid #AE445A;
+  padding-bottom: 0.5rem;
 }
 
-.submitted p {
-    padding-left: 1rem;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    color: #555;
+.cv-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #AE445A;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.4rem;
+}
+
+.cv-item {
+  margin-bottom: 0.7rem;
+  font-size: 1.05rem;
+  white-space: pre-wrap;
 }
 
 /* Responsive Design */
@@ -159,13 +180,24 @@ button:hover {
         padding: 0.7rem 1.2rem;
     }
 
-    .submitted h2 {
-        font-size: 1.3rem;
-    }
+   
+  .submitted {
+    padding: 1.5rem;
+    
+  }
 
-    .submitted p {
-        font-size: 0.9rem;
-    }
+  .submitted h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .cv-item {
+    font-size: 1rem;
+  }
+
 }
 
 @media (max-width: 480px) {
@@ -198,13 +230,22 @@ button:hover {
         padding: 0.6rem 1rem;
     }
 
-    .submitted h2 {
-        font-size: 1.2rem;
-    }
+   
+  .submitted {
+    padding: 1.5rem;
+  }
 
-    .submitted p {
-        font-size: 0.8rem;
-    }
+  .submitted h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .cv-item {
+    font-size: 1rem;
+  }
 }
 
 /*To remove arrows*/

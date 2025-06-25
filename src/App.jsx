@@ -1,6 +1,7 @@
 import Styles from './App.module.css';
 import CVGenerator from './components/CVGenerator';
-import { useState } from 'react';
+import { useState,useRef } from 'react';
+import html2pdf from 'html2pdf.js';
 
 function App() {
   const [name, setName] = useState('');
@@ -19,6 +20,22 @@ function App() {
     "A section to add your educational experience (school name, title of study and date of study)",
     "A section to add practical experience (company name, position title, main responsibilities of your jobs, date from and until when you worked for that company)"
   ]
+
+  const pdfRef = useRef();
+
+const handleDownloadPDF = () => {
+  const element = pdfRef.current;
+  const opt = {
+    margin:       0.5,
+    filename:     'My_CV.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 4},
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save();
+};
+
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -103,19 +120,34 @@ function App() {
       <button onClick={handleSubmit}>SUBMIT</button>
 
       {submittedData && (
-        <div className={Styles.submitted}>
-          <h2>YOUR CV:</h2>
-          <p>Name: {submittedData.name}</p>
-          <p>Email: {submittedData.email}</p>
-          <p>Phone Number: {submittedData.number}</p>
-          <hr />
-          <p>Educational Information: </p>
-          <p>{submittedData.school}</p>
-          <hr />
-          <p>Practical Experience: </p>
-          <p>{submittedData.company}</p>
-        </div>
-      )}
+  <>
+    <div ref={pdfRef} className={Styles.submitted}>
+      <h2>CV Summary</h2>
+
+      <div className={Styles["cv-section"]}>
+        <p className={Styles["section-title"]}>Personal Information</p>
+        <p className={Styles["cv-item"]}><strong>Name:</strong> {submittedData.name}</p>
+        <p className={Styles["cv-item"]}><strong>Email:</strong> {submittedData.email}</p>
+        <p className={Styles["cv-item"]}><strong>Phone:</strong> {submittedData.number}</p>
+      </div>
+
+      <div className={Styles["cv-section"]}>
+        <p className={Styles["section-title"]}>Educational Background</p>
+        <p className={Styles["cv-item"]}>{submittedData.school}</p>
+      </div>
+
+      <div className={Styles["cv-section"]}>
+        <p className={Styles["section-title"]}>Practical Experience</p>
+        <p className={Styles["cv-item"]}>{submittedData.company}</p>
+      </div>
+      
+    </div>
+<button onClick={handleDownloadPDF}>Download as PDF</button>
+    
+  </>
+)}
+
+
     </div>
   );
 }
