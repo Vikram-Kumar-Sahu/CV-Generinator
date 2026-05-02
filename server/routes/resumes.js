@@ -1,0 +1,161 @@
+import express from "express";
+import Resume from "../models/Resume.js";
+import User from "../models/User.js";
+import { protect } from "../middleware/auth.js";
+
+const router = express.Router();
+
+// All resume routes require authentication
+router.use(protect);
+
+// ── GET /api/resumes ───────────────────────────────────────────
+router.get("/", async (req, res, next) => {
+  try {
+    const resumes = await Resume.find({ user: req.user._id }).sort({ updatedAt: -1 });
+    res.json({ success: true, resumes });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── POST /api/resumes ──────────────────────────────────────────
+router.post("/", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const count = await Resume.countDocuments({ user: req.user._id });
+
+    // Enforce limits for free users
+    if (user.subscription.plan === "free" && count >= user.usage.resumesLimit) {
+      return res.status(403).json({
+        error: `Free plan allows only ${user.usage.resumesLimit} resumes. Upgrade to Pro.`,
+        code: "RESUME_LIMIT",
+      });
+    }
+
+    const resume = await Resume.create({
+      user: req.user._id,
+      title: req.body.title || "My Resume",
+      templateId: req.body.templateId || "modern",
+      content: req.body.content || {},
+    });
+
+    res.status(201).json({ success: true, resume });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── GET /api/resumes/:id ───────────────────────────────────────
+router.get("/:id", async (req, res, next) => {
+  try {
+    const resume = await Resume.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    if (!resume) return res.status(404).json({ error: "Resume not found." });
+    res.json({ success: true, resume });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── PATCH /api/resumes/:id ─────────────────────────────────────
+router.patch("/:id", async (req, res, next) => {
+  try {
+    const { title, templateId, content, atsScore } = req.body;
+
+    const resume = await Resume.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      {
+        ...(title !== undefined && { title }),
+        ...(templateId !== undefined && { templateId }),
+        ...(content !== undefined && { content }),
+        ...(atsScore !== undefined && { atsScore }),
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!resume) return res.status(404).json({ error: "Resume not found." });
+    res.json({ success: true, resume });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── DELETE /api/resumes/:id ────────────────────────────────────
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const resume = await Resume.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    if (!resume) return res.status(404).json({ error: "Resume not found." });
+    res.json({ success: true, message: "Resume deleted." });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── POST /api/resumes/:id/duplicate ───────────────────────────
+router.post("/:id/duplicate", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const count = await Resume.countDocuments({ user: req.user._id });
+
+    if (user.subscription.plan === "free" && count >= user.usage.resumesLimit) {
+      return res.status(403).json({
+        error: "Resume limit reached. Upgrade to Pro.",
+        code: "RESUME_LIMIT",
+      });
+    }
+
+    const original = await Resume.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    if (!original) return res.status(404).json({ error: "Resume not found." });
+
+    const duplicate = await Resume.create({
+      user: req.user._id,
+      title: `${original.title} (Copy)`,
+      templateId: original.templateId,
+      content: original.content,
+    });
+
+    res.status(201).json({ success: true, resume: duplicate });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── POST /api/resumes/:id/download ────────────────────────────
+router.post("/:id/download", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (
+      user.subscription.plan === "free" &&
+      user.usage.downloadsCount >= user.usage.downloadsLimit
+    ) {
+      return res.status(403).json({
+        error: `Download limit reached (${user.usage.downloadsLimit} on free plan).`,
+        code: "DOWNLOAD_LIMIT",
+      });
+    }
+
+    await Resume.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { $inc: { downloads: 1 }, lastExportedAt: new Date() }
+    );
+
+    await User.findByIdAndUpdate(req.user._id, {
+      $inc: { "usage.downloadsCount": 1 },
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+export default router;

@@ -1,0 +1,33 @@
+{
+  "name": "resumecraft-client",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-router-dom": "^6.23.1",
+    "axios": "^1.7.2",
+    "framer-motion": "^11.2.0",
+    "lucide-react": "^0.395.0",
+    "html2pdf.js": "^0.10.3",
+    "react-hot-toast": "^2.4.1",
+    "react-hook-form": "^7.51.5",
+    "@stripe/stripe-js": "^3.4.0",
+    "@stripe/react-stripe-js": "^2.7.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "vite": "^5.2.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
