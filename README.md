@@ -12,7 +12,7 @@ Full-stack MERN SaaS resume builder powered by **Google Gemini AI** (free), with
 | Backend | Node.js + Express.js |
 | Database | MongoDB + Mongoose ODM |
 | Auth | JWT (custom, no third-party) |
-| AI | Google Gemini 1.5 Flash (FREE) |
+| AI | Google Gemini 2.0 Flash (FREE) |
 | Payments | Stripe |
 | PDF Export | html2pdf.js |
 
@@ -114,53 +114,7 @@ This installs packages for root, server, and client.
 4. Create a product "ResumeCraft Pro" with monthly ($9.99) and yearly ($79.99) prices
 5. Set up a webhook pointing to `http://localhost:5000/api/stripe/webhook`
 
-### Step 5 — Create server/.env
 
-```bash
-cd server
-cp .env.example .env
-```
-
-Fill in `server/.env`:
-
-```env
-PORT=5000
-NODE_ENV=development
-
-# MongoDB Atlas — paste your connection string here
-MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/resumecraft?retryWrites=true&w=majority
-
-# JWT — make this a long random string (keep it secret!)
-JWT_SECRET=change-this-to-a-long-random-secret-string-at-least-32-chars
-JWT_EXPIRES_IN=7d
-
-# Client URL
-CLIENT_URL=http://localhost:5173
-
-# Gemini AI (FREE from aistudio.google.com)
-GEMINI_API_KEY=AIza...
-
-# Stripe (optional — app works without it)
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRO_MONTHLY_PRICE_ID=price_...
-STRIPE_PRO_YEARLY_PRICE_ID=price_...
-```
-
-### Step 6 — Run the app
-
-```bash
-# From the root folder
-npm run dev
-```
-
-This starts both:
-- **Backend**: http://localhost:5000
-- **Frontend**: http://localhost:5173
-
-Open http://localhost:5173 in your browser.
-
----
 
 ## 👤 Role System
 
