@@ -25,18 +25,30 @@ const PORT = process.env.PORT || 5000;
 
 // ── Security middleware ────────────────────────────────────────
 app.use(helmet());
-const allowedOrigins = [
-  "https://cv-generinator.vercel.app",
-  "https://cv-generinator-41tg1wmc8-vikram-kumar-sahus-projects.vercel.app",
-];
+
+// Allow any Vercel deployment + production domain + localhost
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true; // Allow no origin (same-origin requests)
+  
+  // Production domain
+  if (origin === "https://cv-generinator.vercel.app") return true;
+  
+  // Any Vercel preview deployment
+  if (/^https:\/\/cv-generinator-[a-z0-9]+-vikram-kumar-sahus-projects\.vercel\.app$/.test(origin)) return true;
+  
+  // Localhost (development)
+  if (origin === "http://localhost:5173" || origin === "http://localhost:3000") return true;
+  
+  return false;
+};
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (isAllowedOrigin(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
       }
     },
     credentials: true,
