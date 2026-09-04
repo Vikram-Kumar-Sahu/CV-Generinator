@@ -190,8 +190,9 @@ AI credits per plan:
 1. Push to GitHub
 2. Create a new service on [railway.app](https://railway.app) or [render.com](https://render.com)
 3. Point to the `server/` directory
-4. Add all environment variables
-5. Set start command: `node index.js`
+4. Install TeX Live so the server has the `pdflatex` executable available
+5. Add all environment variables
+6. Set start command: `node index.js`
 
 ### Frontend (Vercel/Netlify)
 

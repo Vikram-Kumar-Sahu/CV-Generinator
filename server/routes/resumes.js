@@ -1,7 +1,9 @@
 import express from "express";
-import Resume from "../models/Resume.js";
+import Resume from "../models/Resume_Schema.js";
 import User from "../models/User.js";
 import { protect } from "../middleware/auth.js";
+import { generateLatex } from "../services/latex/tex_generator.js";
+import { compileToPDF } from "../services/latex/tex_compiler.js";
 
 const router = express.Router();
 
@@ -143,16 +145,45 @@ router.post("/:id/download", async (req, res, next) => {
       });
     }
 
-    await Resume.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
-      { $inc: { downloads: 1 }, lastExportedAt: new Date() }
+    const resume = await Resume.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    if (!resume) return res.status(404).json({ error: "Resume not found." });
+
+    const latex = generateLatex(resume.toObject(), { isPro: user.isPro });
+    const pdf = await compileToPDF(latex);
+
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        _id: req.user._id,
+        "usage.downloadsCount": { $lt: user.usage.downloadsLimit },
+      },
+      { $inc: { "usage.downloadsCount": 1 } },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(403).json({
+        error: `Download limit reached (${user.usage.downloadsLimit} on free plan).`,
+        code: "DOWNLOAD_LIMIT",
+      });
+    }
+
+    await Resume.updateOne(
+      { _id: resume._id },
+      { $inc: { downloads: 1 }, $set: { lastExportedAt: new Date() } }
     );
 
-    await User.findByIdAndUpdate(req.user._id, {
-      $inc: { "usage.downloadsCount": 1 },
+    const filename = `${(resume.title || "Resume")
+      .replace(/[^a-z0-9 _-]/gi, "")
+      .trim() || "Resume"}.pdf`;
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Length": pdf.length,
+      "Content-Disposition": `attachment; filename="${filename}"`,
+      "Cache-Control": "private, no-store",
     });
-
-    res.json({ success: true });
+    res.send(pdf);
   } catch (err) {
     next(err);
   }

@@ -1,6 +1,6 @@
 import express from "express";
 import User from "../models/User.js";
-import Resume from "../models/Resume.js";
+import Resume from "../models/Resume_Schema.js";
 import Plan from "../models/Plan.js";
 import { protect, adminOnly } from "../middleware/auth.js";
 
