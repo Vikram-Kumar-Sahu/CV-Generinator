@@ -97,17 +97,17 @@ export default function BuilderPage() {
   async function handleExport() {
     setExporting(true);
     try {
-      const html2pdf = (await import("html2pdf.js")).default;
-      const el = previewRef.current;
-      if (!el) { toast.error("Preview not ready"); return; }
-      await html2pdf().set({
-        margin: 0,
-        filename: `${resume.title || "Resume"}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 3, useCORS: true },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      }).from(el).save();
-      await api.post(`/resumes/${resume._id}/download`);
+      const { data } = await api.post(`/resumes/${resume._id}/download`, null, {
+        responseType: "blob",
+      });
+      const url = URL.createObjectURL(data);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${resume.title || "Resume"}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
       toast.success("PDF downloaded!");
     } catch (err) {
       toast.error("Export failed. Please try again.");
